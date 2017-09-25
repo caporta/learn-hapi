@@ -27,11 +27,40 @@ server.register({
     return console.error(error)
   }
 
+  // hapi evaluates routes in order of descending specificity. source order is irrelevant
+
   server.route({
     method: 'GET',
     path: '/',
     handler: (request, reply) => {
-      reply('hello hapi')
+      reply(request.params)
+    },
+  })
+
+  // can denote file extension
+  server.route({
+    method: 'GET',
+    path: '/files/{filename}.jpg',
+    handler: (request, reply) => {
+      reply(request.params)
+    },
+  })
+
+  // '?' denotes optional param. will match without (0-1)
+  server.route({
+    method: 'GET',
+    path: '/users/{username?}',
+    handler: (request, reply) => {
+      reply(request.params)
+    },
+  })
+
+  // can use wildcard for arbitrary (or limited) number of params. will match without (0-2, up to 0+)
+  server.route({
+    method: 'GET',
+    path: '/children/{children*2}',
+    handler: (request, reply) => {
+      reply(request.params)
     },
   })
 
