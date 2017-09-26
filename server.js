@@ -1,5 +1,6 @@
 'use strict'
 const Hapi = require('hapi')
+const Boom = require('boom')
 const Good = require('good')
 
 
@@ -61,6 +62,15 @@ server.register({
     path: '/children/{children*2}',
     handler: (request, reply) => {
       reply(request.params)
+    },
+  })
+
+  // graceful error handling with boom
+  server.route({
+    method: 'GET',
+    path: '/idontexist',
+    handler: (request, reply) => {
+      reply(Boom.notFound())
     },
   })
 
