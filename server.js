@@ -74,6 +74,18 @@ server.register({
     },
   })
 
+  server.route({
+    method: 'GET',
+    path: '/fancyheaders',
+    handler: (request, reply) => {
+      reply('hello world')
+        .code(418)
+        .type('text/plain')
+        .header('foo', 'bar')
+        .state('baz', 'qux')
+    },
+  })
+
   server.start(() => {
     console.log(`Started at ${server.info.uri}`)
   })
